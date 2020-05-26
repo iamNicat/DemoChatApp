@@ -1,8 +1,7 @@
-package com.example.simplechat
+package com.example.simplechat.Activities
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,15 +9,14 @@ import android.provider.MediaStore
 import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
+import com.example.simplechat.R
+import com.example.simplechat.Classes.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_register.*
 import java.util.*
-import java.util.regex.Pattern
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -134,11 +132,17 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun saveUserToFDatabase(profileImageUrl: String) {
+
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val reference = FirebaseDatabase.getInstance().getReference("/users/$uid")
-        val user = User(uid, edtFullName.text.toString(), profileImageUrl)
+        val user = User(
+            uid,
+            edtFullName.text.toString(),
+            profileImageUrl
+        )
         reference.setValue(user)
             .addOnSuccessListener {
+                Log.d("RegisterActivity", "Successfully registred firebase: ")
 
             }
     }

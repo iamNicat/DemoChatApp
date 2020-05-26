@@ -40,4 +40,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     // circle image view
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    // Groupie library
+    implementation 'com.xwray:groupie:2.8.0'
+    // Picasso library
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }
