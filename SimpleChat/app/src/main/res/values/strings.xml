@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">SimpleChat</string>
+
+    <string name="login">Login</string>
+    <string name="don_t_have_account">Don\'t have account</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="register">Register</string>
+
+    <string name="full_name">Full Name</string>
 </resources>
