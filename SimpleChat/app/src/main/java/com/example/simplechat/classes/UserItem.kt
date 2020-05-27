@@ -1,4 +1,4 @@
-package com.example.simplechat.Classes
+package com.example.simplechat.classes
 
 import com.example.simplechat.R
 import com.squareup.picasso.Picasso
@@ -10,7 +10,7 @@ class UserItem(val user:User) : Item<GroupieViewHolder>() {
 
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-      viewHolder.itemView.username_tv_new_message.text = user.usernmae
+      viewHolder.itemView.username_tv_new_message.text = user.username
 
         Picasso.get().load(user.profileImageUrl).into(viewHolder.itemView.imageview_new_message)
 

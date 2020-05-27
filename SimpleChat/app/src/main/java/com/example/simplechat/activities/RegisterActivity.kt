@@ -1,4 +1,4 @@
-package com.example.simplechat.Activities
+package com.example.simplechat.activities
 
 import android.app.Activity
 import android.content.Intent
@@ -10,7 +10,7 @@ import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import com.example.simplechat.R
-import com.example.simplechat.Classes.User
+import com.example.simplechat.classes.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
@@ -18,6 +18,7 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_register.*
 import java.util.*
 
+@Suppress("DEPRECATION", "NAME_SHADOWING")
 class RegisterActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
 
@@ -34,14 +35,12 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         register.setOnClickListener {
-
             registerUser()
-
         }
 
     }
 
-    var selectedPhotoUri: Uri? = null
+    private var selectedPhotoUri: Uri? = null
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -56,61 +55,69 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun registerUser() {
-        if (edtFullName.text.toString().isEmpty()) {
-            edtFullName.error = "Please enter full name"
-            edtFullName.requestFocus()
-            return
-        }
-        if (email.text.toString().isEmpty()) {
-            email.error = "Please enter email"
-            email.requestFocus()
-            return
-
-        }
-        if (!Patterns.EMAIL_ADDRESS.matcher(email.text.toString()).matches()) {
-            email.error = "Please enter valid email"
-            email.requestFocus()
-            return
-
-        }
-        if (password.text.toString().isEmpty()) {
-            password.error = "Please Enter password"
-            password.requestFocus()
-            return
-
-        }
-        if (phonenumber.text.toString().isEmpty()) {
-            phonenumber.error = "Please Enter phone number"
-            phonenumber.requestFocus()
-            return
-
-        }
-        auth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-
-                    val user: FirebaseUser? = auth.currentUser
-                    user?.sendEmailVerification()
-                        ?.addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                uploadImageToFirebaseStorage()
-                                startActivity(Intent(this, LoginActivity::class.java))
-                                finish()
-
-                            }
-                        }
-
-
-                } else {
-                    Toast.makeText(
-                        baseContext,
-                        "Register process failed,Try again please!",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-
-                }
+        when {
+            edtFullName.text.toString().isEmpty() -> {
+                edtFullName.error = "Please enter full name"
+                edtFullName.requestFocus()
+                return
             }
+            email.text.toString().isEmpty() -> {
+                email.error = "Please enter email"
+                email.requestFocus()
+                return
+
+            }
+            !Patterns.EMAIL_ADDRESS.matcher(email.text.toString()).matches() -> {
+                email.error = "Please enter valid email"
+                email.requestFocus()
+                return
+
+            }
+            password.text.toString().isEmpty() -> {
+                password.error = "Please Enter password"
+                password.requestFocus()
+                return
+
+            }
+            phonenumber.text.toString().isEmpty() -> {
+                phonenumber.error = "Please Enter phone number"
+                phonenumber.requestFocus()
+                return
+
+            }
+            else -> auth.createUserWithEmailAndPassword(
+                email.text.toString(),
+                password.text.toString()
+            )
+                .addOnCompleteListener(this) { task ->
+                    when {
+                        task.isSuccessful -> {
+
+                            val user: FirebaseUser? = auth.currentUser
+                            user?.sendEmailVerification()
+                                ?.addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        uploadImageToFirebaseStorage()
+                                        startActivity(Intent(this, LoginActivity::class.java))
+                                        finish()
+
+                                    }
+                                }
+
+
+                        }
+                        else -> {
+                            Toast.makeText(
+                                baseContext,
+                                "Register process failed,Try again please!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+
+                        }
+                    }
+                }
+        }
     }
 
     private fun uploadImageToFirebaseStorage() {
@@ -118,7 +125,7 @@ class RegisterActivity : AppCompatActivity() {
         val filename = UUID.randomUUID().toString()
         val mStorageRef = FirebaseStorage.getInstance().getReference("/images/$filename")
         mStorageRef.putFile(selectedPhotoUri!!)
-            .addOnSuccessListener {
+            .addOnSuccessListener { it ->
                 Log.d("RegisterActivity", "Successfully uploaded image: ${it.metadata?.path}")
 
                 mStorageRef.downloadUrl.addOnSuccessListener {
@@ -142,6 +149,7 @@ class RegisterActivity : AppCompatActivity() {
         )
         reference.setValue(user)
             .addOnSuccessListener {
+                // I just check  that is successfully  run or not
                 Log.d("RegisterActivity", "Successfully registred firebase: ")
 
             }
