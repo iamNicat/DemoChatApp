@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
-    tools:context=".activities.RegisterActivity">
+    tools:context=".activities.login_register.RegisterActivity">
 
     <EditText
         android:id="@+id/edtFullName"
@@ -60,7 +60,7 @@
         android:layout_marginTop="30dp"
         android:background="@drawable/rounded_edittext_register"
         android:ems="10"
-        android:hint="xxxxxxxxxx"
+        android:hint="Phone"
         android:inputType="phone"
         android:padding="10dp"
         app:layout_constraintStart_toStartOf="@+id/password"

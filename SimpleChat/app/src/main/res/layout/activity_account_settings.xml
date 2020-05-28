@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.account_settings.AccountSettingsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/setting_new_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="New Name" />
+
+        <EditText
+            android:id="@+id/setting_current_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Current password" />
+
+        <EditText
+            android:id="@+id/setting_new_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="New password" />
+
+        <EditText
+            android:id="@+id/setting_confirm_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Confirm password" />
+
+        <Button
+            android:id="@+id/btn_change_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save changes"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,10 +1,10 @@
-package com.example.simplechat.activities
+package com.example.simplechat.activities.chat_message
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.simplechat.classes.User
-import com.example.simplechat.classes.UserItem
+import com.example.simplechat.classes.user.User
+import com.example.simplechat.classes.user.UserItem
 import com.example.simplechat.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -36,14 +36,19 @@ companion object{
               p0.children.forEach{
                   val user = it.getValue(User::class.java)
                   if(user != null){
-                      adapter.add(UserItem(user))
+                      adapter.add(
+                          UserItem(
+                              user
+                          )
+                      )
 
                   }
               }
               adapter.setOnItemClickListener { item, view ->
 
                   val userItem = item as UserItem
-                  val intent = Intent (view.context,ChatLogActivity::class.java)
+                  val intent = Intent (view.context,
+                      ChatLogActivity::class.java)
                   intent.putExtra(USER_KEY,userItem.user)
                   startActivity(intent)
                   finish()

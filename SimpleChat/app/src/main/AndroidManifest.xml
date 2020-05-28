@@ -9,25 +9,35 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.ChatLogActivity">
+        <activity android:name=".activities.account_settings.AccountSettingsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
+                android:value=".activities.chat_message.MainMessagesActivity" />
         </activity>
-        <activity android:name=".activities.NewMessageActivity">
+        <activity android:name=".activities.chat_message.ChatLogActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
+                android:value=".activities.chat_message.MainMessagesActivity" />
         </activity>
-        <activity android:name=".activities.RegisterActivity" />
-        <activity android:name=".activities.LoginActivity">
+        <activity android:name=".activities.chat_message.NewMessageActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.chat_message.MainMessagesActivity" />
+        </activity>
+        <activity android:name=".activities.login_register.RegisterActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.login_register.LoginActivity" />
+
+        </activity>
+        <activity android:name=".activities.login_register.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.chat_message.MainMessagesActivity" />
     </application>
 
 </manifest>

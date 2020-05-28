@@ -5,44 +5,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
-    tools:context=".activities.LoginActivity">
+    tools:context=".activities.login_register.LoginActivity">
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="148dp"
-        android:layout_marginLeft="148dp"
-        android:layout_marginTop="80dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginLeft="104dp"
+        android:layout_marginTop="64dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_foreground"
+        app:srcCompat="@drawable/logo"
         tools:ignore="VectorDrawableCompat" />
 
     <EditText
         android:id="@+id/editEmail"
-        android:layout_width="298dp"
-        android:layout_height="50dp"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
         android:layout_marginTop="66dp"
         android:background="@drawable/rounded_edittext_register"
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"
-        android:padding="10dp"
+        android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <EditText
         android:id="@+id/editPassword"
-
-        android:layout_width="299dp"
-        android:layout_height="53dp"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/rounded_edittext_register"
         android:ems="10"
         android:hint="*********"
-
         android:inputType="numberPassword"
         android:padding="10dp"
         app:layout_constraintStart_toStartOf="@+id/editEmail"
@@ -50,8 +48,8 @@
 
     <Button
         android:id="@+id/btn_login"
-        android:layout_width="302dp"
-        android:layout_height="51dp"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
         android:layout_marginTop="53dp"
         android:background="@drawable/rounded_button"
         android:gravity="center"
@@ -62,15 +60,15 @@
 
     <Button
         android:id="@+id/btn_register"
-        android:layout_width="409dp"
-        android:layout_height="74dp"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
         android:foregroundGravity="center"
         android:gravity="center"
+        android:background="@android:color/holo_orange_dark"
         android:text="@string/don_t_have_account"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.023"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

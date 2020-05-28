@@ -1,4 +1,4 @@
-package com.example.simplechat.activities
+package com.example.simplechat.activities.login_register
 
 import android.app.Activity
 import android.content.Intent
@@ -10,7 +10,7 @@ import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import com.example.simplechat.R
-import com.example.simplechat.classes.User
+import com.example.simplechat.classes.user.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase

@@ -1,4 +1,4 @@
-package com.example.simplechat.classes
+package com.example.simplechat.classes.user
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
