@@ -145,6 +145,7 @@ class RegisterActivity : AppCompatActivity() {
         val user = User(
             uid,
             edtFullName.text.toString(),
+            phonenumber.text.toString(),
             profileImageUrl
         )
         reference.setValue(user)

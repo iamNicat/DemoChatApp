@@ -16,6 +16,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="New Name" />
+        <EditText
+            android:id="@+id/setting_new_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="Phone number" />
+        <Button
+            android:id="@+id/btn_change_user_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save new User Info"
+            />
 
         <EditText
             android:id="@+id/setting_current_password"

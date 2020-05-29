@@ -5,13 +5,20 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.example.simplechat.R
+import com.example.simplechat.activities.chat_message.MainMessagesActivity
 import com.example.simplechat.activities.login_register.LoginActivity
+import com.example.simplechat.classes.user.User
 import com.google.firebase.auth.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_account_settings.*
+import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.android.synthetic.main.user_row_new_message.*
 
 class AccountSettingsActivity : AppCompatActivity() {
-    private  var auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     val user: FirebaseUser? = auth.currentUser
 
 
@@ -21,17 +28,51 @@ class AccountSettingsActivity : AppCompatActivity() {
 
 
 
+
         btn_change_password.setOnClickListener {
             changePassword()
 
+
+        }
+        btn_change_user_info.setOnClickListener {
+            changeUserInfo()
         }
     }
 
 
-    private fun changeName() {
+
+
+    private fun changeUserInfo() {
         val uid = FirebaseAuth.getInstance().uid
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
-        val currentUser = FirebaseAuth.getInstance().currentUser
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                val user = p0.getValue(User::class.java)
+                if (user != null) {
+                    val username = setting_new_username.text.toString()
+                    val phone = setting_new_phone.text.toString()
+
+                    ref.setValue(User(user.uid, username, phone, user.profileImageUrl))
+                        .addOnSuccessListener {
+                            startActivity(
+                                Intent(
+                                    this@AccountSettingsActivity,
+                                    LoginActivity::class.java
+                                )
+                            )
+                            finish()
+                        }
+
+
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+
+        })
 
     }
 
