@@ -1,7 +1,6 @@
 package com.example.simplechat.classes.user
 
 import com.example.simplechat.R
-import com.example.simplechat.classes.user.User
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item

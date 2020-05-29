@@ -19,16 +19,16 @@
 
     <Button
         android:id="@+id/btn_new_message"
-        android:layout_width="52dp"
-        android:layout_height="52dp"
+        android:layout_width="62dp"
+        android:layout_height="62dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/bgbtnnew"
         android:text="+"
-        android:textColor="@android:color/white"
-
-        android:textSize="32sp"
+        android:gravity="center"
+        android:textColor="@android:color/holo_orange_dark"
+        android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

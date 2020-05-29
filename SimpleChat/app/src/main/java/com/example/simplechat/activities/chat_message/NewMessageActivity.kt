@@ -20,13 +20,10 @@ class NewMessageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_message_acitivty)
         supportActionBar?.title = "Select User"
-//        val adapter = GroupAdapter<GroupieViewHolder>()
-//        adapter.add(UserItem())
-//        recyclerview_newmessage.adapter = adapter
         fetchUsers()
     }
-companion object{
-    val USER_KEY = "USER_KEY"
+    companion object{
+    const val USER_KEY = "USER_KEY"
 }
     private fun fetchUsers() {
       val reference =  FirebaseDatabase.getInstance().getReference("/users")

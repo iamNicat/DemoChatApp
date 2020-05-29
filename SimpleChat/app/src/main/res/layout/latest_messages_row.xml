@@ -7,16 +7,15 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageview_latest_message"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:civ_border_color="@android:color/black"
         app:civ_border_width="2dp"
-        />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textview_username_latest_message"
@@ -26,11 +25,11 @@
         android:layout_marginLeft="16dp"
         android:textColor="#000000"
         android:textSize="16sp"
-        tools:text = "Username"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textview_latest_message"
         app:layout_constraintStart_toEndOf="@+id/imageview_latest_message"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Username" />
 
     <TextView
         android:id="@+id/textview_latest_message"
@@ -40,11 +39,10 @@
         android:layout_marginLeft="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="Latest messages"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/imageview_latest_message"
         app:layout_constraintTop_toBottomOf="@+id/textview_username_latest_message" />
 

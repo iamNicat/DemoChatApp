@@ -28,11 +28,7 @@ class ChatLogActivity : AppCompatActivity() {
         toUser = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
         supportActionBar?.title = toUser!!.username
 
-
         listenForMessages()
-
-
-
         send_button_chat_log.setOnClickListener {
             performSendMessage()
         }
@@ -52,7 +48,7 @@ class ChatLogActivity : AppCompatActivity() {
                     if (chatMessage.fromId == FirebaseAuth.getInstance().uid) {
                         val currentUser =
                             MainMessagesActivity.currentUser
-                        Log.d("Mesaj", "Menden")
+
                         adapter.add(
                             ChatIFromItem(
                                 chatMessage.text,
@@ -90,7 +86,7 @@ class ChatLogActivity : AppCompatActivity() {
     }
 
     private fun performSendMessage() {
-        // how do we actually send message
+
 
         val text = edittext_chat_log.text.toString()
         val fromID = FirebaseAuth.getInstance().uid

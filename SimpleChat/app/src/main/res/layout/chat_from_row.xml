@@ -13,6 +13,7 @@
         android:layout_height="50dp"
         app:civ_border_color="@android:color/black"
         app:civ_border_width="2dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher_foreground"
@@ -25,7 +26,9 @@
         android:background="@drawable/rounded_edittext_register"
         android:maxWidth="240dp"
         android:padding="16dp"
-        android:text="That is my message"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toStartOf="@+id/imageview_chat_from_row"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="2dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

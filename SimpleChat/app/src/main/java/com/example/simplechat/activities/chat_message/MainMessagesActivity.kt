@@ -28,13 +28,15 @@ class MainMessagesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         recyclerview_latest_messages.adapter = adapter
+        //val uid = FirebaseAuth.getInstance().uid
+
         recyclerview_latest_messages.addItemDecoration(
             DividerItemDecoration(
                 this,
                 DividerItemDecoration.VERTICAL
             )
         )
-        adapter.setOnItemClickListener { item, view ->
+        adapter.setOnItemClickListener { item, _ ->
             val intent = Intent(this, ChatLogActivity::class.java)
             val row = item as LatestMessagesRow
             intent.putExtra(NewMessageActivity.USER_KEY, row.chatPartnerUser)
@@ -48,7 +50,6 @@ class MainMessagesActivity : AppCompatActivity() {
         listenForLatestMessages()
         fetchCurrentUser()
 
-        val uid = FirebaseAuth.getInstance().uid
 
     }
 
@@ -95,7 +96,7 @@ class MainMessagesActivity : AppCompatActivity() {
         )
     }
 
-    val adapter = GroupAdapter<GroupieViewHolder>()
+    private val adapter = GroupAdapter<GroupieViewHolder>()
 
 
     private fun fetchCurrentUser() {
@@ -114,7 +115,7 @@ class MainMessagesActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item?.itemId) {
+        when (item.itemId) {
             R.id.menu_settings -> {
                 startActivity(Intent(this, AccountSettingsActivity::class.java))
 

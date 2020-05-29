@@ -12,15 +12,14 @@ import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.latest_messages_row.view.*
 
-class LatestMessagesRow(val chatMessage: ChatMessage) : Item<GroupieViewHolder>() {
+class LatestMessagesRow(private val chatMessage: ChatMessage) : Item<GroupieViewHolder>() {
     var chatPartnerUser: User? =null
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.textview_latest_message.text = chatMessage.text
-        val chatPartnerId: String
-        if (chatMessage.fromId == FirebaseAuth.getInstance().uid) {
-            chatPartnerId = chatMessage.toId
+        val chatPartnerId: String = if (chatMessage.fromId == FirebaseAuth.getInstance().uid) {
+            chatMessage.toId
         } else {
-            chatPartnerId = chatMessage.fromId
+            chatMessage.fromId
         }
 
         val ref = FirebaseDatabase.getInstance().getReference("/users/$chatPartnerId")

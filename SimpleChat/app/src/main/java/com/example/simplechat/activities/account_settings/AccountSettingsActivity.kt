@@ -26,20 +26,13 @@ class AccountSettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_settings)
 
-
-
-
         btn_change_password.setOnClickListener {
             changePassword()
-
-
         }
         btn_change_user_info.setOnClickListener {
             changeUserInfo()
         }
     }
-
-
 
 
     private fun changeUserInfo() {
@@ -49,19 +42,28 @@ class AccountSettingsActivity : AppCompatActivity() {
             override fun onDataChange(p0: DataSnapshot) {
                 val user = p0.getValue(User::class.java)
                 if (user != null) {
-                    val username = setting_new_username.text.toString()
-                    val phone = setting_new_phone.text.toString()
 
-                    ref.setValue(User(user.uid, username, phone, user.profileImageUrl))
-                        .addOnSuccessListener {
-                            startActivity(
-                                Intent(
-                                    this@AccountSettingsActivity,
-                                    LoginActivity::class.java
+                    if(setting_new_username.text.isNotEmpty() &&  setting_new_phone.text.isNotEmpty()){
+                        val username = setting_new_username.text.toString()
+                        val phone = setting_new_phone.text.toString()
+
+                        ref.setValue(User(user.uid, username, phone, user.profileImageUrl))
+                            .addOnSuccessListener {
+                                startActivity(
+                                    Intent(
+                                        this@AccountSettingsActivity,
+                                        LoginActivity::class.java
+                                    )
                                 )
-                            )
-                            finish()
-                        }
+                                finish()
+                            }
+                    } else{
+                        setting_new_username.error = "Please fill both of them"
+                        setting_new_phone.error = "Please fill both of them"
+
+                    }
+
+
 
 
                 }
@@ -85,37 +87,13 @@ class AccountSettingsActivity : AppCompatActivity() {
             if (setting_new_password.text.toString()
                     .equals(setting_confirm_password.text.toString())
             ) {
-
-
                 if (user != null && user.email != null) {
                     val credential: AuthCredential = EmailAuthProvider.getCredential(
                         user.email!!,
+                        setting_current_password.text.toString())
 
-                        setting_current_password.text.toString()
-                    )
 
-                    user?.reauthenticate(credential)?.addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            user?.updatePassword(setting_new_password.text.toString())
-                                ?.addOnCompleteListener {
-                                    if (it.isSuccessful) {
-                                        Toast.makeText(
-                                            this,
-                                            "Changes are saved successfuly !",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                        auth.signOut()
-                                        startActivity(Intent(this, LoginActivity::class.java))
-                                        finish()
-                                    }
-                                }
-
-                        } else {
-                            Toast.makeText(this, "Failed!", Toast.LENGTH_SHORT).show()
-
-                        }
-                    }
-
+                         userReauthenticate(credential)
                 } else {
                     startActivity(Intent(this, LoginActivity::class.java))
                     finish()
@@ -129,5 +107,30 @@ class AccountSettingsActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this, "Please enter all the fields!", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun userReauthenticate(credential: AuthCredential) {
+        user?.reauthenticate(credential)?.addOnCompleteListener {
+            if (it.isSuccessful) {
+                user?.updatePassword(setting_new_password.text.toString())
+                    ?.addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            Toast.makeText(
+                                this,
+                                "Changes are saved successfuly !",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            auth.signOut()
+                            startActivity(Intent(this, LoginActivity::class.java))
+                            finish()
+                        }
+                    }
+
+            } else {
+                Toast.makeText(this, "Failed!", Toast.LENGTH_SHORT).show()
+
+            }
+        }
+
     }
 }
