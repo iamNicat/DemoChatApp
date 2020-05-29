@@ -48,7 +48,7 @@
         android:background="@drawable/rounded_edittext_register"
         android:ems="10"
         android:hint="******"
-        android:inputType="numberPassword"
+        android:inputType="textPassword"
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

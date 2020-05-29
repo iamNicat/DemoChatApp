@@ -1,10 +1,15 @@
 package com.example.simplechat.activities.login_register
 
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Patterns
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.example.simplechat.R
 import com.example.simplechat.activities.chat_message.MainMessagesActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -27,6 +32,38 @@ class LoginActivity : AppCompatActivity() {
             doLogin()
 
         }
+        forget_password.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Forgot Password")
+            val view: View = layoutInflater.inflate(R.layout.dialog_forgot_password, null)
+            val emailadress: EditText = view.findViewById<EditText>(R.id.forget_password_email)
+            builder.setView(view)
+            builder.setPositiveButton("Reset", DialogInterface.OnClickListener { _, _ ->
+                forgotPassword(emailadress)
+
+            })
+            builder.setNegativeButton("close", DialogInterface.OnClickListener { _, _ -> })
+            builder.show()
+        }
+
+    }
+
+    private fun forgotPassword(emailadress: EditText) {
+        if (emailadress.text.toString().isEmpty()) {
+
+
+            return
+
+        }
+        if (!Patterns.EMAIL_ADDRESS.matcher(emailadress.text.toString()).matches()) {
+
+        }
+        auth.sendPasswordResetEmail(emailadress.text.toString())
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Toast.makeText(this, "Email sent.", Toast.LENGTH_SHORT).show()
+                }
+            }
 
     }
 
@@ -74,16 +111,17 @@ class LoginActivity : AppCompatActivity() {
 
     private fun updateUI(currentUser: FirebaseUser?) {
         if (currentUser != null) {
-            if(currentUser.isEmailVerified) {
+            if (currentUser.isEmailVerified) {
                 startActivity(Intent(this, MainMessagesActivity::class.java))
                 finish()
-            }else{
+            } else {
                 Toast.makeText(
                     baseContext, "Please verify your email.",
                     Toast.LENGTH_SHORT
                 ).show()
 
-            }} else {
+            }
+        } else {
             Toast.makeText(
                 baseContext, "Login failed.",
                 Toast.LENGTH_SHORT
