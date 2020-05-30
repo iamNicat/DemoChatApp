@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.example.simplechat.classes.user.User
 import com.example.simplechat.classes.user.UserItem
 import com.example.simplechat.R
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -32,7 +33,8 @@ class NewMessageActivity : AppCompatActivity() {
               val adapter = GroupAdapter<GroupieViewHolder>()
               p0.children.forEach{
                   val user = it.getValue(User::class.java)
-                  if(user != null){
+
+                  if(user != null && user.uid != FirebaseAuth.getInstance().uid){
                       adapter.add(
                           UserItem(
                               user
