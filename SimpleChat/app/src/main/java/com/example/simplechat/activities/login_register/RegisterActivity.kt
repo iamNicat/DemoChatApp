@@ -83,6 +83,10 @@ class RegisterActivity : AppCompatActivity() {
                 return
 
             }
+
+
+
+
             else -> auth.createUserWithEmailAndPassword(
                 email.text.toString(),
                 password.text.toString()
@@ -119,24 +123,31 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun uploadImageToFirebaseStorage() {
-        if (selectedPhotoUri == null) return
-        val filename = UUID.randomUUID().toString()
-        val mStorageRef = FirebaseStorage.getInstance().getReference("/images/$filename")
-        mStorageRef.putFile(selectedPhotoUri!!)
-            .addOnSuccessListener { it ->
-                Log.d("RegisterActivity", "Successfully uploaded image: ${it.metadata?.path}")
+        if (selectedPhotoUri == null) {
+            saveUserToFDatabase("https://firebasestorage.googleapis.com/v0/b/simplechat-15410.appspot.com/o/images%2Fb4624b2a-d810-49ed-8ad6-9d7d077d3cd6?alt=media&token=4bf35423-b835-41fe-b1e4-ca2ecfe10fa2")
+            return
+        }
 
-                mStorageRef.downloadUrl.addOnSuccessListener {
 
-                    saveUserToFDatabase(it.toString())
+            val filename = UUID.randomUUID().toString()
+            val mStorageRef = FirebaseStorage.getInstance().getReference("/images/$filename")
+            mStorageRef.putFile(selectedPhotoUri!!)
+                .addOnSuccessListener { it ->
+                    Log.d("RegisterActivity", "Successfully uploaded image: ${it.metadata?.path}")
+
+                    mStorageRef.downloadUrl.addOnSuccessListener {
+
+                        saveUserToFDatabase(it.toString())
+                    }
                 }
-            }
-            .addOnFailureListener {
+                .addOnFailureListener {
 
-            }
+                }
+
     }
 
     private fun saveUserToFDatabase(profileImageUrl: String) {
+
 
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val reference = FirebaseDatabase.getInstance().getReference("/users/$uid")
@@ -152,6 +163,7 @@ class RegisterActivity : AppCompatActivity() {
                 Log.d("RegisterActivity", "Successfully registred firebase: ")
 
             }
+
     }
 
 }

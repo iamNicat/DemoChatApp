@@ -92,9 +92,13 @@
         android:id="@+id/photo_imageview_register"
         android:layout_width="150dp"
         android:layout_height="150dp"
+
         app:civ_border_width="4dp"
         app:layout_constraintBottom_toBottomOf="@+id/photo"
         app:layout_constraintEnd_toEndOf="@+id/photo"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/photo"
-        app:layout_constraintTop_toTopOf="@+id/photo" />
+        app:layout_constraintTop_toTopOf="@+id/photo"
+        app:layout_constraintVertical_bias="1.0"
+         />
 </androidx.constraintlayout.widget.ConstraintLayout>

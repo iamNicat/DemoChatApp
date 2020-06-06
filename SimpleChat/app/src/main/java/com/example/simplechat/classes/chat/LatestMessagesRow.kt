@@ -28,7 +28,8 @@ class LatestMessagesRow(private val chatMessage: ChatMessage) : Item<GroupieView
                 chatPartnerUser = p0.getValue(User::class.java)
                 viewHolder.itemView.textview_username_latest_message.text  = chatPartnerUser?.username
                 val targetImageView = viewHolder.itemView.imageview_latest_message
-                Picasso.get().load(chatPartnerUser?.profileImageUrl).into(targetImageView)
+
+    Picasso.get().load(chatPartnerUser?.profileImageUrl).into(targetImageView)
 
             }
 

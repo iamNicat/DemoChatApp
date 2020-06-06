@@ -1,6 +1,9 @@
 package com.example.simplechat.classes.chat
 
+import android.content.Context
+import com.bumptech.glide.Glide
 import com.example.simplechat.R
+import com.example.simplechat.activities.chat_message.NewMessageActivity
 import com.example.simplechat.classes.user.User
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupieViewHolder
