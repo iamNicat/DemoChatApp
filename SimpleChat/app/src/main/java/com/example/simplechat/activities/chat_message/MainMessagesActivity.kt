@@ -41,10 +41,12 @@ class MainMessagesActivity : AppCompatActivity() {
             val row = item as LatestMessagesRow
             intent.putExtra(NewMessageActivity.USER_KEY, row.chatPartnerUser)
             startActivity(intent)
+
         }
         btn_new_message.setOnClickListener {
             val intent = Intent(this, NewMessageActivity::class.java)
             startActivity(intent)
+
         }
 
         listenForLatestMessages()
@@ -125,6 +127,7 @@ class MainMessagesActivity : AppCompatActivity() {
                 val intent = Intent(this, LoginActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
+
             }
         }
 

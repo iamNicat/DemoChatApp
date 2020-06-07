@@ -1,8 +1,13 @@
 package com.example.simplechat.activities.account_settings
 
+import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
+import android.view.View
 import android.widget.Toast
 import com.example.simplechat.R
 import com.example.simplechat.activities.chat_message.MainMessagesActivity
@@ -13,33 +18,114 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_account_settings.*
 import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.user_row_new_message.*
+import java.util.*
 
 class AccountSettingsActivity : AppCompatActivity() {
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     val user: FirebaseUser? = auth.currentUser
+    val currentuser = MainMessagesActivity.currentUser
+    val uid = FirebaseAuth.getInstance().uid
+    val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_settings)
         supportActionBar?.title = "Settings"
+         val uri = currentuser?.profileImageUrl
+        Picasso.get().load(uri).into(setting_change_image)
+       val username = currentuser?.username
+        setting_new_username.hint = "username: $username"
+        setting_new_phone.hint = "phone: ${currentuser?.phone}"
+
+        setting_change_image.setOnClickListener {
+            Log.d("Settings", "TRY TO SHOW PHOTO SELECTED")
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent, 0)
 
 
+        }
         btn_change_password.setOnClickListener {
             changePassword()
         }
         btn_change_user_info.setOnClickListener {
-            changeUserInfo()
+           changeUserInfo()
+        }
+
+    }
+    private var selectedPhotoUri: Uri? = null
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
+            selectedPhotoUri = data.data
+            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
+            setting_change_image.setImageBitmap(bitmap)
+            setting_progress_bar.visibility = View.VISIBLE
+            uploadImageToFirebaseStorage()
+
         }
     }
 
 
+    private fun uploadImageToFirebaseStorage() {
+        if (selectedPhotoUri == null) {
+            Log.d("Settings","null")
+            return
+        }
+
+
+        val filename = UUID.randomUUID().toString()
+        val mStorageRef = FirebaseStorage.getInstance().getReference("/images/$filename")
+        mStorageRef.putFile(selectedPhotoUri!!)
+            .addOnSuccessListener { it ->
+                Log.d("RegisterActivity", "Successfully uploaded image: ${it.metadata?.path}")
+
+                mStorageRef.downloadUrl.addOnSuccessListener {
+                    Log.d("Settings","Storage")
+
+                    changeUserImage(it.toString())
+                //    saveUserToFDatabase(it.toString())
+                }
+            }
+            .addOnFailureListener {
+
+            }
+
+    }
+
+    private fun changeUserImage(profileImageUrl1: String){
+        ref.addValueEventListener(object : ValueEventListener{
+
+
+            override fun onDataChange(p0: DataSnapshot) {
+               val user = p0.getValue(User::class.java)
+                if(user != null){
+                    Log.d("Settings","ChangeUserImage")
+                    ref.setValue(User(user.uid,user.username,user.phone,profileImageUrl1))
+                        .addOnSuccessListener {
+                            setting_progress_bar.visibility = View.INVISIBLE
+                            Toast.makeText(this@AccountSettingsActivity, "Profil picture changed successfully!", Toast.LENGTH_SHORT).show()
+
+                        }
+                }
+
+            }
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+
+    }
+
     private fun changeUserInfo() {
-        val uid = FirebaseAuth.getInstance().uid
-        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 val user = p0.getValue(User::class.java)
@@ -49,12 +135,14 @@ class AccountSettingsActivity : AppCompatActivity() {
                         val username = setting_new_username.text.toString()
                         val phone = setting_new_phone.text.toString()
 
-                        ref.setValue(User(user.uid, username, phone, user.profileImageUrl))
+
+
+                        ref.setValue(User(user.uid, username, phone,user.profileImageUrl))
                             .addOnSuccessListener {
                                 startActivity(
                                     Intent(
                                         this@AccountSettingsActivity,
-                                        LoginActivity::class.java
+                                        MainMessagesActivity::class.java
                                     )
                                 )
                                 finish()
