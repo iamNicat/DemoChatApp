@@ -29,8 +29,18 @@ class ChatLogActivity : AppCompatActivity() {
         supportActionBar?.title = toUser!!.username
 
         listenForMessages()
+
+
+
         send_button_chat_log.setOnClickListener {
-            performSendMessage()
+
+    performSendMessage()
+
+
+
+
+
+
         }
 
     }
@@ -88,40 +98,44 @@ class ChatLogActivity : AppCompatActivity() {
     private fun performSendMessage() {
 
 
-        val text = edittext_chat_log.text.toString()
-        val fromID = FirebaseAuth.getInstance().uid
-        val user = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
+        val text = edittext_chat_log.text.toString().trimStart()
+        if(text != ""){
+            val fromID = FirebaseAuth.getInstance().uid
+            val user = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
 
-        val toId = user.uid
-        if (fromID == null) return
-        val reference =
-            FirebaseDatabase.getInstance().getReference("/user - messages/$fromID/$toId").push()
-        val toReference =
-            FirebaseDatabase.getInstance().getReference("/user - messages/$toId/$fromID").push()
+            val toId = user.uid
+            if (fromID == null) return
+            val reference =
+                FirebaseDatabase.getInstance().getReference("/user - messages/$fromID/$toId").push()
+            val toReference =
+                FirebaseDatabase.getInstance().getReference("/user - messages/$toId/$fromID").push()
 
-        val chatMessage =
-            ChatMessage(
-                reference.key!!,
-                text,
-                fromID,
-                toId,
-                System.currentTimeMillis() / 1000
-            )
-        reference.setValue(chatMessage)
-            .addOnSuccessListener {
-                edittext_chat_log.text.clear()
-                recyclerview_chat_log.scrollToPosition(adapter.itemCount - 1)
-            }
-        toReference.setValue(chatMessage)
+            val chatMessage =
+                ChatMessage(
+                    reference.key!!,
+                    text,
+                    fromID,
+                    toId,
+                    System.currentTimeMillis() / 1000
+                )
+            reference.setValue(chatMessage)
+                .addOnSuccessListener {
+                    edittext_chat_log.text.clear()
+                    recyclerview_chat_log.scrollToPosition(adapter.itemCount - 1)
+                }
+            toReference.setValue(chatMessage)
 
 
-        val latestMessageRef =
-            FirebaseDatabase.getInstance().getReference("/latest - messages/$fromID/$toId")
-        latestMessageRef.setValue(chatMessage)
+            val latestMessageRef =
+                FirebaseDatabase.getInstance().getReference("/latest - messages/$fromID/$toId")
+            latestMessageRef.setValue(chatMessage)
 
-        val latestMessageToRef =
-            FirebaseDatabase.getInstance().getReference("/latest - messages/$toId/$fromID")
-        latestMessageToRef.setValue(chatMessage)
+            val latestMessageToRef =
+                FirebaseDatabase.getInstance().getReference("/latest - messages/$toId/$fromID")
+            latestMessageToRef.setValue(chatMessage)
+        }
+
+
 
 
     }

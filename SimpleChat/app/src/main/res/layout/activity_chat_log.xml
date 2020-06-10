@@ -17,7 +17,8 @@
         android:ems="10"
         android:paddingLeft="16dp"
         android:hint="Enter message"
-        android:inputType="textPersonName"
+
+        android:inputType="textCapSentences"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/send_button_chat_log"
         app:layout_constraintStart_toStartOf="parent"
